@@ -1,0 +1,14 @@
+{
+    "files": {
+        "index.js": "d1224bb1fd5d37315abae0b3744f1c344f0b2a33cfd69c649659b455cf387cb9",
+        "module.json": "addf5e1a2a4eeadc9e8e50ac1c92c508bcb47864fe1534dcc172b617b664c08e"
+    },
+    "defs": {
+        "S_LOGIN": 10,
+        "S_USER_STATUS": 1,
+        "S_NPC_STATUS": 1,
+        "S_START_COOLTIME_ITEM": 1,
+        "C_USE_ITEM": 3,
+        "S_ABNORMALITY_BEGIN": 2
+    }
+}
