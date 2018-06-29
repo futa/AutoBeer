@@ -80,14 +80,14 @@ module.exports = function AutoBeer(dispatch) {
         }
     });
 
-    function drinkBeer(retry) {
-        if (!isEnraged || retry < 0) return;
+    function drinkBeer(retryTimes) {
+        if (!isEnraged || retryTimes < 0) return;
         // Retry in 100ms
-        if (inCd) {
+        if (inCd && !retry) {
             if (debug) {
                 command.message('(AutoBeer) Beer on cd, retry in 100ms');
             }
-            retry = setTimeout(drinkBeer.bind(retry - 1), 100);
+            retry = setTimeout(drinkBeer.bind(retryTimes - 1), 100);
         } else {
             if (debug) {
                 command.message('(AutoBeer) Actually drinking beer');
