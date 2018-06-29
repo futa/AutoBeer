@@ -10,7 +10,8 @@ module.exports = function AutoBeer(dispatch) {
         inCombat = false,
         inCd = false,
         enabled = true,
-        disableDrunk = false;
+        disableDrunk = false,
+        debug = false;
 
     dispatch.hook('S_LOGIN', 10, event => {
         gameId = event.gameId;
@@ -25,9 +26,15 @@ module.exports = function AutoBeer(dispatch) {
     dispatch.hook('S_NPC_STATUS', 1, (event) => {
         if (!enabled) return;
         if (event.enraged === 1 && inCombat) {
+            if (debug) {
+                command.message('(AutoBeer) Boss enraged, in combat, drinking');
+            }
             isEnraged = true;
             drinkBeer(1); // try 1 times
         } else if (event.enraged === 0) {
+            if (debug) {
+                command.message('(AutoBeer) Boss unenraged');
+            }
             isEnraged = false;
         }
     });
@@ -35,12 +42,18 @@ module.exports = function AutoBeer(dispatch) {
     dispatch.hook('S_START_COOLTIME_ITEM', 1, event => { 
         let cooldown = event.cooldown;
         if (event.item === ROOT_BEER_ID) {
+            if (debug) {
+                command.message('(AutoBeer) Beer on cooldown');
+            }
             if (retry) {
                 clearTimeout(retry);
                 retry = null;
             }
             inCd = true;
             setTimeout(() => {
+                if (debug) {
+                    command.message('(AutoBeer) Beer not on cooldown');
+                }
                 inCd = false;
             }, cooldown * 1000)
         }
@@ -71,8 +84,14 @@ module.exports = function AutoBeer(dispatch) {
         if (!isEnraged || retry < 0) return;
         // Retry in 100ms
         if (inCd) {
+            if (debug) {
+                command.message('(AutoBeer) Beer on cd, retry in 100ms');
+            }
             retry = setTimeout(drinkBeer.bind(retry - 1), 100);
         } else {
+            if (debug) {
+                command.message('(AutoBeer) Actually drinking beer');
+            }
             dispatch.toServer('C_USE_ITEM', 3, {
                 gameId: gameId,
                 id: ROOT_BEER_ID
@@ -82,9 +101,18 @@ module.exports = function AutoBeer(dispatch) {
 
     command.add('beer', (arg) => {
         enabled = !enabled;
-        if (arg && arg.toLowerCase() === "drunk") {
-            disableDrunk = !disableDrunk;
-            command.message('(AutoBeer) ' + (disableDrunk ? 'Disabling Drunk Screen' : 'Enabling Drunk Screen'));
+        if (arg) {
+            let a = arg.toLowerCase();
+            switch (a) {
+                case "drunk":
+                    disableDrunk = !disableDrunk;
+                    command.message('(AutoBeer) ' + (disableDrunk ? 'Disabling Drunk Screen' : 'Enabling Drunk Screen'));
+                    break;
+                case "debug":
+                    debug = !debug;
+                    command.message('(AutoBeer) ' + (debug ? 'Enabling debug mode' : 'Disabling debug mode'));
+                    break;
+            }
         }
         command.message('(AutoBeer) ' + (enabled ? 'enabled' : 'disabled'));
     });
