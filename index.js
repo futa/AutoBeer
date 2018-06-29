@@ -100,7 +100,6 @@ module.exports = function AutoBeer(dispatch) {
     }
 
     command.add('beer', (arg) => {
-        enabled = !enabled;
         if (arg) {
             let a = arg.toLowerCase();
             switch (a) {
@@ -113,7 +112,9 @@ module.exports = function AutoBeer(dispatch) {
                     command.message('(AutoBeer) ' + (debug ? 'Enabling debug mode' : 'Disabling debug mode'));
                     break;
             }
+        } else {
+            enabled = !enabled;
+            command.message('(AutoBeer) ' + (enabled ? 'enabled' : 'disabled'));
         }
-        command.message('(AutoBeer) ' + (enabled ? 'enabled' : 'disabled'));
     });
 }
