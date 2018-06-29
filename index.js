@@ -38,7 +38,7 @@ module.exports = function AutoBeer(dispatch) {
             inCd = true;
             setTimeout(() => {
                 inCd = false;
-            }, thiscooldown * 1000)
+            }, cooldown * 1000)
         }
     });
 
@@ -78,6 +78,10 @@ module.exports = function AutoBeer(dispatch) {
 
     command.add('beer', (arg) => {
         enabled = !enabled;
+        if (arg && arg.toLowerCase() === "drunk") {
+            disableDrunk = !disableDrunk;
+            command.message('(AutoBeer) ' + (disableDrunk ? 'Disabling Drunk Screen' : 'Enabling Drunk Screen'));
+        }
         command.message('(AutoBeer) ' + (enabled ? 'enabled' : 'disabled'));
     });
 }
