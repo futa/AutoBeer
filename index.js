@@ -6,6 +6,7 @@ module.exports = function AutoBeer(dispatch) {
 
     let gameId = null,
         retry = null,
+        isEnraged = false,
         inCombat = false,
         inCd = false,
         enabled = true,
@@ -24,7 +25,10 @@ module.exports = function AutoBeer(dispatch) {
     dispatch.hook('S_NPC_STATUS', 1, (event) => {
         if (!enabled) return;
         if (event.enraged === 1 && inCombat) {
-            drinkBeer(5); // try 5 times
+            isEnraged = true;
+            drinkBeer(1); // try 1 times
+        } else if (event.enraged === 0) {
+            isEnraged = false;
         }
     });
 
@@ -64,7 +68,7 @@ module.exports = function AutoBeer(dispatch) {
     });
 
     function drinkBeer(retry) {
-        if (retry < 0) return;
+        if (!isEnraged || retry < 0) return;
         // Retry in 100ms
         if (inCd) {
             retry = setTimeout(drinkBeer.bind(retry - 1), 100);
