@@ -9,15 +9,17 @@ module.exports = function AutoBeer(dispatch) {
         isEnraged = false,
         inCombat = false,
         inCd = false,
-        enabled = true,
+        enabled = false,
         disableDrunk = false,
         debug = false;
 
     dispatch.hook('S_LOGIN', 10, event => {
+        if (!enabled) return;
         gameId = event.gameId;
     });
 
     dispatch.hook('S_USER_STATUS', 1, event => {
+        if (!enabled) return;
         if (event.target.equals(gameId)) {
             inCombat = event.status === 1;
         }
@@ -39,7 +41,8 @@ module.exports = function AutoBeer(dispatch) {
         }
     });
 
-    dispatch.hook('S_START_COOLTIME_ITEM', 1, event => { 
+    dispatch.hook('S_START_COOLTIME_ITEM', 1, event => {
+        if (!enabled) return;
         let cooldown = event.cooldown;
         if (event.item === ROOT_BEER_ID) {
             if (debug) {
@@ -60,6 +63,7 @@ module.exports = function AutoBeer(dispatch) {
     });
 
     dispatch.hook('S_ABNORMALITY_BEGIN', 2, (event) => {
+        if (!enabled) return;
         if (!disableDrunk) return;
         if (
             event.id == "48733" ||
@@ -81,6 +85,7 @@ module.exports = function AutoBeer(dispatch) {
     });
 
     function drinkBeer(retryTimes) {
+        if (!enabled) return;
         if (!isEnraged || retryTimes < 0) return;
         // Retry in 100ms
         if (inCd && !retry) {
