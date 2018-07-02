@@ -14,12 +14,10 @@ module.exports = function AutoBeer(dispatch) {
         debug = false;
 
     dispatch.hook('S_LOGIN', 10, event => {
-        if (!enabled) return;
         gameId = event.gameId;
     });
 
     dispatch.hook('S_USER_STATUS', 1, event => {
-        if (!enabled) return;
         if (event.target.equals(gameId)) {
             inCombat = event.status === 1;
         }
@@ -85,7 +83,6 @@ module.exports = function AutoBeer(dispatch) {
     });
 
     function drinkBeer(retryTimes) {
-        if (!enabled) return;
         if (!isEnraged || retryTimes < 0) return;
         // Retry in 100ms
         if (inCd && !retry) {
