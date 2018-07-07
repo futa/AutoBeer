@@ -61,7 +61,6 @@ module.exports = function AutoBeer(dispatch) {
     });
 
     dispatch.hook('S_ABNORMALITY_BEGIN', 2, (event) => {
-        if (!enabled) return;
         if (!disableDrunk) return;
         if (
             event.id == "48733" ||
