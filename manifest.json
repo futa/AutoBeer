@@ -1,14 +1,15 @@
 {
-    "files": {
-        "index.js": "f670a71464e20b890c9f9a33d1386923fd44f35660bfcbbea6f0809a90be157b",
-        "module.json": "7fa85689d4b843b194f2dd6484ece7f9854b859f0ed9c710efc1efe83f671241"
-    },
-    "defs": {
-        "S_LOGIN": 10,
-        "S_USER_STATUS": 1,
-        "S_NPC_STATUS": 1,
-        "S_START_COOLTIME_ITEM": 1,
-        "C_USE_ITEM": 3,
-        "S_ABNORMALITY_BEGIN": 2
-    }
+	"files": {
+		"README.md": "85694148ab486e85c8d013c215558824a7522a0b6398a30de213a431eadbd529",
+		"index.js": "f670a71464e20b890c9f9a33d1386923fd44f35660bfcbbea6f0809a90be157b",
+		"module.json": "7fa85689d4b843b194f2dd6484ece7f9854b859f0ed9c710efc1efe83f671241"
+	},
+	"defs": {
+		"C_USE_ITEM": 3,
+		"S_ABNORMALITY_BEGIN": 2,
+		"S_LOGIN": 10,
+		"S_NPC_STATUS": 1,
+		"S_START_COOLTIME_ITEM": 1,
+		"S_USER_STATUS": 1
+	}
 }
